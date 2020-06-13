@@ -1,6 +1,6 @@
-# AI
-Repo for AI
+# Camera
+Repo for hidden Camera
 
-Next steo:
-Still working on the camera app
+Next step:
+Connection between back end and front end
 CameraX is not the final version
