@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
-    }
+}
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -118,19 +118,18 @@ class MainActivity : AppCompatActivity() {
         // Setup image capture listener which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-                outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
-            override fun onError(exc: ImageCaptureException) {
-                Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-            }
+                ContextCompat.getMainExecutor(this), object :
+                ImageCapture.OnImageCapturedCallback(){
 
-            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                val savedUri = Uri.fromFile(photoFile)
-                val msg = "Photo capture succeeded: $savedUri"
-                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                Log.d(TAG, msg)
-            }
+                override fun onCaptureSuccess(image: ImageProxy) {
+                    super.onCaptureSuccess(image)
+                    Log.d("image", image.toString())
+                }
 
-        })
+                override fun onError(exception: ImageCaptureException) {
+                    super.onError(exception)
+                }
+            })
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
